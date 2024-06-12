@@ -7,6 +7,8 @@
 #' @return an invisible list to call including: summary, data frame, characteristic & response matrices, beta estimates, RSS, ssq, s, fitted values, and residuals.
 #' @export
 #'
+#' @importFrom ggplot2 ggplot geom_point geom_hline scale_color_manual labs aes
+#'
 #' @examples \dontrun{mymatreg(ylm)}
 mymatreg <- function(obj) { # obj = lm() object
 
@@ -39,6 +41,26 @@ mymatreg <- function(obj) { # obj = lm() object
   yhat <- X %*% betahat
   res <- Y - yhat
 
+  # diagnostic residual plot
+  dat2 <- data.frame(yhat, res)
+
+  out <- c()
+
+  dat2$out <- factor(
+    ifelse(abs(res) > 3*as.numeric(s), "out",
+           ifelse(abs(res) > 2*as.numeric(s) & abs(res) <= 3*as.numeric(s), "maybe", "in")))
+
+  res.plot <- ggplot(data = dat2, aes(x = yhat, y = res, color = out)) +
+    geom_point(cex = 3, aes(x = yhat, y = res)) +
+    geom_hline(yintercept = c(0, 2*s, -2*s, 3*s, -3*s), color = "black", linetype = "dashed") +
+    scale_color_manual(name = "Outliers & Friends",
+                       values = stats::setNames(c("darkred", "navy", "darkgreen"), c("out", "maybe", "in")),
+                       labels = c("Not Outlier", "Potential", "Outlier")) +
+    labs(title = "Residuals ~ Fitted",
+         subtitle = "with Outlier ID",
+         x = "Fitted Values",
+         y = "Residuals")
+
   # list
   invisible(list(summary=sm,
                  dat=dat,
@@ -49,5 +71,6 @@ mymatreg <- function(obj) { # obj = lm() object
                  ssq=ssq,
                  s=s,
                  fit=yhat,
-                 resid=res))
+                 resid=res,
+                 res.plot=res.plot))
 }
