@@ -1,0 +1,67 @@
+---
+title: "The regmat Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The regmat Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(regmat)
+```
+
+# Introduction
+
+This package has a function which produces many important items associated with linear regression and matrix algebra.
+
+# Example
+
+We will use the `FIREDAM` data set for this example.
+
+```{r}
+fire <- read.csv("fire.csv")
+names(fire)
+
+ylm <- lm(DAMAGE ~ DISTANCE, data = fire)
+```
+
+The function `mymatreg()`
+
+```{r, fig.align='center', fig.width=8, fig.height=5}
+l <- mymatreg(ylm)
+l
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
