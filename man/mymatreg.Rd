@@ -10,7 +10,7 @@ mymatreg(obj)
 \item{obj}{an object from an `lm()`}
 }
 \value{
-an invisible list to call including: summary, data frame, characteristic & response matrices, beta estimates, RSS, ssq, s, fitted values, and residuals.
+an invisible list to call including: summary, data frame, characteristic & response matrices, beta estimates, RSS, ssq, s, fitted values, residuals, leverage values, and a resiudal plot.
 }
 \description{
 A function which returns many great things from matrix algebra for regression

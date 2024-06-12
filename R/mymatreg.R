@@ -4,7 +4,7 @@
 #'
 #' @param obj an object from an `lm()`
 #'
-#' @return an invisible list to call including: summary, data frame, characteristic & response matrices, beta estimates, RSS, ssq, s, fitted values, and residuals.
+#' @return an invisible list to call including: summary, data frame, characteristic & response matrices, beta estimates, RSS, ssq, s, fitted values, residuals, leverage values, and a resiudal plot.
 #' @export
 #'
 #' @importFrom ggplot2 ggplot geom_point geom_hline scale_color_manual labs aes
@@ -41,6 +41,10 @@ mymatreg <- function(obj) { # obj = lm() object
   yhat <- X %*% betahat
   res <- Y - yhat
 
+  # leverage
+  P <- X %*% solve(t(X) %*% X) %*% t(X)
+  leverage <- diag(P)
+
   # diagnostic residual plot
   dat2 <- data.frame(yhat, res)
 
@@ -72,5 +76,6 @@ mymatreg <- function(obj) { # obj = lm() object
                  s=s,
                  fit=yhat,
                  resid=res,
+                 leverage=leverage,
                  res.plot=res.plot))
 }
