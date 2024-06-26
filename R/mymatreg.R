@@ -20,7 +20,7 @@ mymatreg <- function(obj) { # obj = lm() object
 
   # n and k
   n <- dim(dat)[1]
-  k <- dim(dat)[2] - 1
+  k <- dim(dat)[2]
 
   # matrices
   X <- stats::model.matrix(obj)
@@ -77,5 +77,7 @@ mymatreg <- function(obj) { # obj = lm() object
                  fit=yhat,
                  resid=res,
                  leverage=leverage,
-                 res.plot=res.plot))
+                 res.plot=res.plot,
+                 n=n,
+                 k=k))
 }
